@@ -13,7 +13,7 @@ http://www.mulesoft.org/schema/mule/db http://www.mulesoft.org/schema/mule/db/cu
 				<ee:set-variable variableName="correlationId" ><![CDATA[attributes.headers.'x-correlation-id' default ""]]></ee:set-variable>
 			</ee:variables>
 		</ee:transform>
-		<logger level="INFO" doc:name="Start Log" doc:id="ad9590fb-8b4b-4620-9d2b-7afc0a290b17" message='transactionId: #[vars.transactionId]], correlationId: #[vars.correlationId], message: Started get reports flow and received query parameter is - #[attributes.queryParams.state]"' />
+		<logger level="INFO" doc:name="Start Log" doc:id="ad9590fb-8b4b-4620-9d2b-7afc0a290b17" message='transactionId: #[vars.transactionId]], correlationId: #[vars.correlationId], message: Started get reports flow, received query parameter is - #[attributes.queryParams.state]"' />
 		<ee:transform doc:name="Prepare DynamicQuery" doc:id="c1682fea-c5c6-45ef-97e2-b98f0b1d029c" >
 			<ee:message />
 			<ee:variables >
