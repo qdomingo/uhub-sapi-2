@@ -1,0 +1,24 @@
+#%RAML 1.0 DataType
+type: object
+description: This type is for use to provide detailed information about the error occurred in a generic matter. All APIs should incorporate this object
+properties:
+                code:
+                  type: integer
+                  description: Code of the error
+                  required: true 
+                message:
+                  type: string
+                  description: A human redeable message that describes the error
+                  required: true
+                description:
+                  type: string
+                  description: A human redeable, comprehensive explanation of the occurred exception
+                  required: false
+                dateTime:
+                  type: datetime
+                  description: The date-time stamp of the occurred error
+                  required: true
+                transactionId:
+                  type: string
+                  description: Internal identifier of the transaction that failed
+                  required: true
