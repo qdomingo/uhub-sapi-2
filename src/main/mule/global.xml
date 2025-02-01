@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:api-gateway="http://www.mulesoft.org/schema/mule/api-gateway"
+	xmlns:tls="http://www.mulesoft.org/schema/mule/tls"
+	xmlns:secure-properties="http://www.mulesoft.org/schema/mule/secure-properties" xmlns:db="http://www.mulesoft.org/schema/mule/db"
+	xmlns:apikit="http://www.mulesoft.org/schema/mule/mule-apikit"
+	xmlns:http="http://www.mulesoft.org/schema/mule/http" xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="
+http://www.mulesoft.org/schema/mule/mule-apikit http://www.mulesoft.org/schema/mule/mule-apikit/current/mule-apikit.xsd http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/db http://www.mulesoft.org/schema/mule/db/current/mule-db.xsd
+http://www.mulesoft.org/schema/mule/secure-properties http://www.mulesoft.org/schema/mule/secure-properties/current/mule-secure-properties.xsd
+http://www.mulesoft.org/schema/mule/tls http://www.mulesoft.org/schema/mule/tls/current/mule-tls.xsd
+http://www.mulesoft.org/schema/mule/api-gateway http://www.mulesoft.org/schema/mule/api-gateway/current/mule-api-gateway.xsd">
+	    <http:listener-config name="uhub-sapi-2-httpListenerConfig" basePath="covid">
+        <http:listener-connection host="0.0.0.0" port="${secure::http.port}" />
+    </http:listener-config>
+    <apikit:config name="uhub-sapi-2-config" api="uhub-sapi-2.raml" outboundHeadersMapName="outboundHeaders" httpStatusVarName="httpStatus" />
+<!--
+	<db:config name="Uhub_Database_Config_2" doc:name="Database Config" doc:id="6a1e2370-6be6-450a-bc9f-9b52e963d4bf" >
+		<db:oracle-connection host="${secure::db.uhub.host}" user="${secure::db.uhub.username}" password="${secure::db.uhub.password}" instance="${secure::db.uhub.instance}" port="${secure::db.uhub.port}"/>
+	</db:config>
+-->
+	<db:config name="Uhub_Database_Config" doc:name="Database Config" doc:id="5c921ccf-2571-44d9-93e1-ae0a88a77052" >
+		<db:oracle-connection host="${secure::db.uhub.host}" user="${secure::db.uhub.username}" password="${secure::db.uhub.password}" port="${secure::db.uhub.port}" serviceName="${secure::db.uhub.service}">
+			<tls:context >
+				<tls:trust-store path="${secure::db.uhub.tls.trustStoreConfig.path}" password="${secure::db.uhub.tls.trustStoreConfig.password}" type="jks" />
+				<tls:key-store path="${secure::db.uhub.tls.keyStoreConfig.path}" keyPassword="${secure::db.uhub.tls.keyStoreConfig.password}" password="${secure::db.uhub.tls.keyStoreConfig.password}" type="jks" />
+			</tls:context>
+		</db:oracle-connection>
+	</db:config>
+<!--
+	<db:config name="Uhub_Database_Config" doc:name="Database Config" doc:id="4fd94797-4dbf-480a-be49-096faae1ab20" >
+		<db:oracle-connection host="adb.eu-madrid-1.oraclecloud.com" user="ADMIN" password="uhodbPi3141592*" port="1522" serviceName="g76c8cd2daacb5f_kbryvuiplud4wz9t_tpurgent.adb.oraclecloud.com">
+			<tls:context >
+				<tls:trust-store path="truststore.jks" password="uhodbPi3141592*" type="jks"/>
+				<tls:key-store type="jks" path="keystore.jks" keyPassword="uhodbPi3141592*" password="uhodbPi3141592*" />		
+			</tls:context>
+		</db:oracle-connection>
+	</db:config>
+-->	
+<secure-properties:config name="Secure_Properties_Config" doc:name="Secure Properties Config" doc:id="58460f1f-12ce-41e0-b980-5a53f79dd119" file="${env}.yaml" key="${enc.key}" />
+	<api-gateway:autodiscovery apiId="20154041" ignoreBasePath="true" doc:name="API Autodiscovery" doc:id="1b2a872c-883f-45fb-a580-b49c1415c0b4" flowRef="uhub-sapi-2-main" />
+</mule>

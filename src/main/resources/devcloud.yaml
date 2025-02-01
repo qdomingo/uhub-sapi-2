@@ -1,0 +1,17 @@
+http:
+  port: "8081"
+
+db:
+  uhub:
+    host: "adb.eu-madrid-1.oraclecloud.com"
+    port: "1522"
+    username: "ADMIN"
+    password: "![B+wsnUsxzZt5hrYzhVcqnw==]"
+    service: "g76c8cd2daacb5f_kbryvuiplud4wz9t_tpurgent.adb.oraclecloud.com"
+    tls:
+      trustStoreConfig:
+        path: "truststore.jks"
+        password: "uhodbPi3141592*"
+      keyStoreConfig:
+        path: "keystore.jks"
+        password: "uhodbPi3141592*"
